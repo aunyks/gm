@@ -9,6 +9,9 @@ const settings = {
   environment: {
     thickness: 80, // px
     edgeThickness: 10
+  },
+  controls: {
+    tapMargin: 60
   }
 }
 
@@ -56,18 +59,26 @@ const createGrassBg = numPieces =>
 
 const gameState = {
   nathan: {
-    height: 20, // px
+    legUp: false,
+    height: 40, // px
     thickness: 10, // px
-    xMovementRate: 1 // px per ms, i think
+    skinColor: [135, 97, 39],
+    shirtColor: [255, 0, 0],
+    pantsColor: [0, 0, 255],
+    shoeColor: [0, 0, 0],
+    xMovementRate: 0, // px per ms, i think
+    distanceTraveled: 0
   },
   environment: {
-    world: 'grass', // dungeon | grass | beach
-    backgroundPieces: createGrassBg(10)
+    world: 'dungeon', // dungeon | grass | beach
+    backgroundPieces: createDungeonBg(10)
   }
 }
 
+let ctr = 0
 function draw() {
   clear()
+  const ms = millis()
   const { environment } = settings
   const { xMovementRate } = gameState.nathan
   const { world, backgroundPieces } = gameState.environment
@@ -96,7 +107,7 @@ function draw() {
       break;
     default:
       alert(`Something tried to change the environment to "${world}", which doesn't exist`)
-      window.location.href = 'https://example.com'
+      window.location.reload()
       break;
   }
   backgroundPieces.forEach(p => {
@@ -112,4 +123,126 @@ function draw() {
     } else { }
   })
 
+  // Draw Nathan
+  const { nathan } = gameState
+  if (xMovementRate !== 0) {
+    if (ctr === 29 || ctr === 14) {
+      gameState.nathan.legUp = !gameState.nathan.legUp
+    }
+    ctr = (ctr + 1) % 30
+  } else {
+    gameState.nathan.legUp = false
+  }
+
+  strokeWeight(0)
+  // body
+  fill(...nathan.skinColor)
+  rect(
+    CANVAS_WIDTH / 2,
+    CANVAS_HEIGHT - environment.thickness - nathan.height,
+    nathan.thickness,
+    nathan.height,
+    10,
+    10,
+    0,
+    0
+  )
+
+  fill(0)
+  if (xMovementRate >= 0) {
+    circle(
+      CANVAS_WIDTH / 2 + 7,
+      CANVAS_HEIGHT - environment.thickness - nathan.height + 4,
+      2
+    )
+    rect(
+      CANVAS_WIDTH / 2 + 5,
+      CANVAS_HEIGHT - environment.thickness - nathan.height + 7,
+      nathan.thickness - 5,
+      1,
+    )
+  } else {
+    circle(
+      CANVAS_WIDTH / 2 + 3,
+      CANVAS_HEIGHT - environment.thickness - nathan.height + 4,
+      2
+    )
+    rect(
+      CANVAS_WIDTH / 2,
+      CANVAS_HEIGHT - environment.thickness - nathan.height + 7,
+      nathan.thickness - 5,
+      1,
+    )
+  }
+
+  // shirt
+  fill(...nathan.shirtColor)
+  rect(
+    CANVAS_WIDTH / 2,
+    CANVAS_HEIGHT - environment.thickness - nathan.height * 0.75,
+    nathan.thickness,
+    nathan.height * 0.25
+  )
+  // pants
+  fill(...nathan.pantsColor)
+  rect(
+    CANVAS_WIDTH / 2,
+    CANVAS_HEIGHT - environment.thickness - nathan.height * 0.5,
+    nathan.thickness,
+    nathan.height * 0.35
+  )
+  // shoes
+  fill(...nathan.shoeColor)
+  rect(
+    CANVAS_WIDTH / 2,
+    CANVAS_HEIGHT - environment.thickness - nathan.height * 0.15,
+    nathan.thickness,
+    nathan.height * 0.15
+  )
+
+  if (nathan.legUp) {
+    // at this point in the program, movement rate will only be either positive or negative, not 0
+    if (xMovementRate > 0) {
+      fill(...nathan.pantsColor)
+      rect(
+        CANVAS_WIDTH / 2,
+        CANVAS_HEIGHT - environment.thickness - nathan.height * 0.5,
+        nathan.height * 0.5,
+        nathan.thickness
+      )
+      fill(...nathan.shoeColor)
+      rect(
+        CANVAS_WIDTH / 2 + 0.35 * nathan.height,
+        CANVAS_HEIGHT - environment.thickness - nathan.height * 0.5,
+        nathan.height * 0.15,
+        nathan.thickness
+      )
+    } else {
+      fill(...nathan.pantsColor)
+      rect(
+        CANVAS_WIDTH / 2 - nathan.height * 0.5 + nathan.thickness,
+        CANVAS_HEIGHT - environment.thickness - nathan.height * 0.5,
+        nathan.height * 0.5,
+        nathan.thickness
+      )
+      fill(...nathan.shoeColor)
+      rect(
+        CANVAS_WIDTH / 2 - nathan.height * 0.35,
+        CANVAS_HEIGHT - environment.thickness - nathan.height * 0.5,
+        nathan.height * 0.15,
+        nathan.thickness
+      )
+    }
+  }
+  nathan.distanceTraveled += xMovementRate
+}
+
+function touchStarted() {
+  if (mouseX < settings.controls.tapMargin) {
+    gameState.nathan.xMovementRate = -2
+  } else if (mouseX > CANVAS_WIDTH - settings.controls.tapMargin) {
+    gameState.nathan.xMovementRate = 2
+  } else {
+    gameState.nathan.xMovementRate = 0
+  }
 }
