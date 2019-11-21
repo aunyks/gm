@@ -1,4 +1,4 @@
-const [CANVAS_WIDTH, CANVAS_HEIGHT] = [320, 320]
+const [CANVAS_WIDTH, CANVAS_HEIGHT] = [640, 640]
 
 function setup() {
   const cnv = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT)
@@ -42,25 +42,25 @@ const createDungeonBg = numPieces =>
     })
   })
 
-const createGrassBg = numPieces =>
-  [...(new Array(numPieces)).keys()].map(() => {
-    const [y, x, w, h, f, s] = [
-      randBw(settings.environment.thickness, CANVAS_HEIGHT - settings.environment.thickness),
-      randBw(5, CANVAS_WIDTH),
-      randBw(5, 30),
-      randBw(5, 20),
-      [0, 160, 0],
-      [181, 101, 29]
-    ]
-    return ({
-      y: y - h - randBw(3, 5),
-      x,
-      w,
-      h,
-      f,
-      s
-    })
-  })
+// const createGrassBg = numPieces =>
+//   [...(new Array(numPieces)).keys()].map(() => {
+//     const [y, x, w, h, f, s] = [
+//       randBw(settings.environment.thickness, CANVAS_HEIGHT - settings.environment.thickness),
+//       randBw(5, CANVAS_WIDTH),
+//       randBw(5, 30),
+//       randBw(5, 20),
+//       [0, 160, 0],
+//       [181, 101, 29]
+//     ]
+//     return ({
+//       y: y - h - randBw(3, 5),
+//       x,
+//       w,
+//       h,
+//       f,
+//       s
+//     })
+//   })
 
 const gameState = {
   nathan: {
@@ -72,10 +72,11 @@ const gameState = {
     pantsColor: [0, 0, 255],
     shoeColor: [0, 0, 0],
     xMovementRate: 0, // px per ms, i think
-    distanceTraveled: 0
+    distanceTraveled: 0,
+    numRight: 0
   },
   environment: {
-    world: 'dungeon', // dungeon | grass | beach | failure | success
+    world: 'dungeon1', // dungeon | grass | beach | failure | success
     backgroundPieces: createDungeonBg(10)
   }
 }
@@ -95,7 +96,7 @@ function draw() {
   const { xMovementRate } = gameState.nathan
   const { world, backgroundPieces } = gameState.environment
   switch (world) {
-    case 'dungeon':
+    case 'dungeon1':
       background(208)
       fill(128)
       stroke(96)
@@ -103,20 +104,52 @@ function draw() {
       rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
       rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
       break;
-    case 'grass':
-      background(0, 0, 255, 64)
-      fill(0, 160, 0)
-      stroke(181, 101, 29)
-      strokeWeight(10)
-      rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
-      rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
-      break;
-    case 'beach':
-      fill(251, 171, 129)
-      stroke(251, 151, 109)
-      rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
-      rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
-      break;
+      case 'dungeon2':
+        background(208)
+        fill(128)
+        stroke(96)
+        strokeWeight(10)
+        rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+        rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+        break;
+      case 'dungeon3':
+          background(208)
+          fill(128)
+          stroke(96)
+          strokeWeight(10)
+          rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+          rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+          break;
+      case 'dungeon4':
+            background(208)
+            fill(128)
+            stroke(96)
+            strokeWeight(10)
+            rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+            rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+            break;
+      case 'dungeon5':
+              background(208)
+              fill(128)
+              stroke(96)
+              strokeWeight(10)
+              rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+              rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+              break;
+    // case 'grass':
+    //   background(0, 0, 255, 64)
+    //   fill(0, 160, 0)
+    //   stroke(181, 101, 29)
+    //   strokeWeight(10)
+    //   rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+    //   rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+    //   break;
+    // case 'beach':
+    //   fill(251, 171, 129)
+    //   stroke(251, 151, 109)
+    //   rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+    //   rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
+    //   break;
     case 'failure':
       background(0)
       fill(255)
@@ -124,8 +157,12 @@ function draw() {
       sleep(30 * 60 * 1000)
       break;
     case 'success':
-      background(255)
-      fill(0)
+      background(0, 0, 255, 64)
+      fill(0, 160, 0)
+      stroke(181, 101, 29)
+      strokeWeight(10)
+      rect(0 - environment.edgeThickness, 0 - environment.edgeThickness, CANVAS_WIDTH + 2 * environment.edgeThickness, environment.thickness)
+      rect(0 - environment.edgeThickness, CANVAS_HEIGHT - environment.thickness, CANVAS_WIDTH + 2 * environment.edgeThickness, CANVAS_HEIGHT)
       text(`You've succeeded!\n\nYour effort is spectacular.`, 20, 140)
       sleep(30 * 60 * 1000)
       break;
@@ -263,39 +300,53 @@ function draw() {
   textSize(18)
   text(`Meters: ${nathan.distanceTraveled}`, 20, 30)
 
-  if (world === 'dungeon' && nathan.distanceTraveled >= 500) {
-    if (prompt('How many 1s are in 2?').trim() === '2') {
-      gameState.environment.world = 'grass'
-      gameState.environment.backgroundPieces = createGrassBg(5)
-      nathan.distanceTraveled = 0
-      alert(`Stan:\n\nWhat?! That's preposterous? How'd he answer it right?\n\nAh, goodness. It was you wasn't it? Well, good luck getting out of the next few worlds.`)
-      alert(`Nathan:\n\nOmg good job! Now it looks like we're in a grassy world. I think I remember my friend saying to go 1000 backward to get prompted..`)
-    } else {
-      alert('Incorrect')
-      gameState.environment.world = 'failure'
+  if (world === 'dungeon1' && nathan.distanceTraveled >= 500) {
+    if (prompt('How many 1s are in 2?\n0: 2 1: 0').trim() === '0') {
+      nathan.numRight += 1
     }
-  } else if (world === 'grass' && nathan.distanceTraveled <= -1000) {
-    if (prompt(`What's 1 + 2?`).trim() === '3') {
-      gameState.environment.world = 'beach'
-      gameState.environment.backgroundPieces = []
-      nathan.distanceTraveled = 0
-      alert(`Hm, not bad. Next is the beach world. Travel 2000 meters forward to win the game.`)
-    } else {
-      alert('Incorrect')
-      gameState.environment.world = 'failure'
+    gameState.environment.world = 'dungeon2'
+    gameState.environment.backgroundPieces = createDungeonBg(10)
+    nathan.distanceTraveled = 0
+
+  } else if (world === 'dungeon2' && nathan.distanceTraveled >= 500) {
+    if (prompt(`How many pieces of wood make a standard violin?\n 0: 140 1: 70`).trim() === '1') {
+      nathan.numRight += 1
     }
-  } else if (world === 'beach' && nathan.distanceTraveled >= 2000) {
-    if (prompt(`What's the first letter of the alphabet?`).trim().toUpperCase() === 'A') {
-      gameState.environment.world = 'beach'
-      gameState.environment.backgroundPieces = []
-      nathan.distanceTraveled = 0
-      alert(`Spectacular.`)
-      gameState.environment.world = 'success'
-    } else {
-      alert('Incorrect')
-      gameState.environment.world = 'failure'
+    gameState.environment.world = 'dungeon3'
+    gameState.environment.backgroundPieces = createDungeonBg(8)
+    nathan.distanceTraveled = 0
+
+  } else if (world === 'dungeon3' && nathan.distanceTraveled >= 500) {
+    if (prompt(`In South Korea, "Thanksgiving" for them is called\n0: Chuseok 1: Seol-nal`).trim().toUpperCase() === '0') {
+      nathan.numRight += 1
     }
-  } else { }
+    gameState.environment.world = 'dungeon4'
+    gameState.environment.backgroundPieces = createDungeonBg(5)
+    nathan.distanceTraveled = 0
+  }
+    else if (world === 'dungeon4' && nathan.distanceTraveled >= 500) {
+      if (prompt(`What is the maximum number of years a US president can serve?\n0: 8 1: 10`).trim().toUpperCase() === '1') {
+        nathan.numRight += 1
+      }
+      gameState.environment.world = 'dungeon5'
+      gameState.environment.backgroundPieces = createDungeonBg(11)
+      nathan.distanceTraveled = 0
+    }
+    else if (world === 'dungeon5' && nathan.distanceTraveled >= 500) {
+      if (prompt(`The capital of Montana is what?\n 0: Hartford 1: Helena`).trim().toUpperCase() === '1') {
+        nathan.numRight += 1
+        if (nathan.numRight < 4) {
+          gameState.environment.world = 'failure'
+          alert("I got caught! I'll never get out of here...")
+        }
+        else {
+          alert("Thank you for freeing me!")
+          gameState.environment.world = 'success'
+        }
+      }
+    }
+
+ else { }
   if (gameRendered > 1 && !nathanGreeted) {
     alert(`Nathan:\n\nHey! HEY! You there! Help me!\n\nI'm trapped in this weird dungeon but every time I look for an exit I get hit with a tough question.\n\nAnd then when I answer it wrong some Stan guy laughs and says "I'm so smart" and does this ugly laugh thing. Please help me answer them so I can leave!`)
     alert('Nathan:\n\nI remember getting prompted last time I moved 500 meters forward. Let\'s try that again..')
