@@ -82,8 +82,7 @@ const gameState = {
 }
 
 alert('Welcome to Underworlds!')
-alert('To win the game, advance to all of the levels.')
-alert('To advance levels, answer the prompts correctly.')
+alert('To advance levels, answer the questions! But know this...the choices you make will determine whether Nathan will escape...')
 alert('To get prompted, move enough meters in a direction. Good luck!')
 alert('Stan:\n\nI\'m Stan, and I\'ve trapped your friend Nathan in my dungeon world.\n\nI think he\'s trying to get out, but every time he moves far enough he\'s prompted with a question that he can\'t answer!\n\nI\'m so smart haha')
 let gameRendered = -60
@@ -301,7 +300,7 @@ function draw() {
   text(`Meters: ${nathan.distanceTraveled}`, 20, 30)
 
   if (world === 'dungeon1' && nathan.distanceTraveled >= 500) {
-    if (prompt('How many 1s are in 2?\n0: 2 1: 0').trim() === '0') {
+    if (prompt('How many 1s are in 2?A: 2 B: 0').trim().toUpperCase() === 'A') {
       nathan.numRight += 1
     }
     gameState.environment.world = 'dungeon2'
@@ -309,7 +308,7 @@ function draw() {
     nathan.distanceTraveled = 0
 
   } else if (world === 'dungeon2' && nathan.distanceTraveled >= 500) {
-    if (prompt(`How many pieces of wood make a standard violin?\n 0: 140 1: 70`).trim() === '1') {
+    if (prompt(`How many pieces of wood make a standard violin?\n A: 140 B: 70`).trim().toUpperCase() === 'B') {
       nathan.numRight += 1
     }
     gameState.environment.world = 'dungeon3'
@@ -317,7 +316,7 @@ function draw() {
     nathan.distanceTraveled = 0
 
   } else if (world === 'dungeon3' && nathan.distanceTraveled >= 500) {
-    if (prompt(`In South Korea, "Thanksgiving" for them is called\n0: Chuseok 1: Seol-nal`).trim().toUpperCase() === '0') {
+    if (prompt(`In South Korea, "Thanksgiving" for them is called\nA: Chuseok B: Seol-nal`).trim().toUpperCase() === 'A') {
       nathan.numRight += 1
     }
     gameState.environment.world = 'dungeon4'
@@ -325,7 +324,7 @@ function draw() {
     nathan.distanceTraveled = 0
   }
     else if (world === 'dungeon4' && nathan.distanceTraveled >= 500) {
-      if (prompt(`What is the maximum number of years a US president can serve?\n0: 8 1: 10`).trim().toUpperCase() === '1') {
+      if (prompt(`What is the maximum number of years a US president can serve?\nA: 8 B: 10`).trim().toUpperCase() === 'B') {
         nathan.numRight += 1
       }
       gameState.environment.world = 'dungeon5'
@@ -333,7 +332,7 @@ function draw() {
       nathan.distanceTraveled = 0
     }
     else if (world === 'dungeon5' && nathan.distanceTraveled >= 500) {
-      if (prompt(`The capital of Montana is what?\n 0: Hartford 1: Helena`).trim().toUpperCase() === '1') {
+      if (prompt(`The capital of Montana is what?\n 0: Hartford 1: Helena`).trim().toUpperCase() === 'A') {
         nathan.numRight += 1
         if (nathan.numRight < 4) {
           gameState.environment.world = 'failure'
