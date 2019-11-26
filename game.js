@@ -332,7 +332,7 @@ function draw() {
       nathan.distanceTraveled = 0
     }
     else if (world === 'dungeon5' && nathan.distanceTraveled >= 500) {
-      if (prompt(`The capital of Montana is what?\n 0: Hartford 1: Helena`).trim().toUpperCase() === 'A') {
+      if (prompt(`The capital of Montana is what?\n A: Hartford B: Helena`).trim().toUpperCase() === 'A') {
         nathan.numRight += 1
         if (nathan.numRight < 4) {
           gameState.environment.world = 'failure'
@@ -343,7 +343,17 @@ function draw() {
           gameState.environment.world = 'success'
         }
       }
+      else {
+        if (nathan.numRight < 4) {
+          gameState.environment.world = 'failure'
+          alert("I got caught! I'll never get out of here...")
+        }
+        else {
+          alert("Thank you for freeing me!")
+          gameState.environment.world = 'success'
+      }
     }
+  }
 
  else { }
   if (gameRendered > 1 && !nathanGreeted) {
